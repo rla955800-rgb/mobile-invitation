@@ -113,7 +113,13 @@ const EVENT = {
   node ~/.claude/skills/mobile-invitation/scripts/og-capture.mjs images/og-card.html images/og-image.png
   ```
 
-- 카카오톡은 미리보기를 캐시한다. 바꾼 뒤에도 예전 카드가 보이면 카카오 개발자 사이트의 [공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 주소를 넣고 캐시를 지운다 (카카오 로그인 필요, 사용자가 직접).
+- `og:site_name`, `og:image:secure_url`, `og:image:type`, `<link rel="image_src">`도 함께 둔다 (앱마다 보는 태그가 다르다).
+- 이미지 주소 끝에 `?v=숫자`를 붙이고, 이미지를 바꿀 때마다 숫자를 올린다 (메신저 이미지 캐시 회피).
+- 카카오톡은 한 번 읽은 주소의 미리보기를 캐시한다. 태그를 넣기 **전에** 보낸 적 있는 주소는 계속 미리보기 없이 보일 수 있다.
+  - 해결 1: 카카오 개발자 사이트의 [공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 주소를 넣고 캐시 초기화 (카카오 로그인 필요, 사용자가 직접).
+  - 해결 2: 주소 뒤에 `?v=숫자`를 붙인 새 주소로 보낸다 (예: `.../mobile-invitation/?v=2`). 카카오는 새 주소로 보고 다시 읽는다.
+- 문자(SMS) 미리보기는 휴대폰 메시지 앱 설정에 달려 있다. 삼성 메시지·구글 메시지의 링크 미리보기 설정이 꺼져 있으면 보이지 않고, 아이폰은 초록색 SMS에서는 미리보기를 만들지 않는다.
+- 태그 확인: 외부 검사 사이트 `https://www.opengraph.xyz/url/<인코딩된 주소>`를 브라우저 패널로 열어 제목·설명·이미지를 읽는지 본다.
 
 ## 참석자 기능
 
