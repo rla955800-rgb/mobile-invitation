@@ -1,11 +1,14 @@
 // 행사 정보는 이곳 한 군데에서만 수정합니다.
 const EVENT = {
-  title: '행사 이름',
-  date: '2026-12-24T12:00:00+09:00', // 반드시 한국 시간대(+09:00) 포함
-  placeName: '장소 이름',
-  address: '서울특별시 중구 세종대로 110',
-  lat: 37.5665,
-  lng: 126.978,
+  title: "'26년 결혼기념일 해피점심",
+  date: '2026-11-28T12:30:00+09:00', // 반드시 한국 시간대(+09:00) 포함
+  attendees: ['김영남', '강정화', '김지율'],
+  placeName: '한남 사피드 서울',
+  address: '서울 용산구 이태원로27길 34-1 (우영미 플래그십스토어 지하)',
+  mapSearch: '사피드 서울', // 네이버 지도 검색어
+  kakaoPlaceId: '1535637929', // 카카오맵 장소 ID (place.map.kakao.com/{ID})
+  lat: 37.5357,
+  lng: 126.9943,
 };
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -37,6 +40,14 @@ function fillEventInfo() {
     el.textContent = values[el.dataset.event];
   });
   document.title = EVENT.title;
+
+  const list = document.getElementById('attendee-list');
+  EVENT.attendees.forEach((name) => {
+    const li = document.createElement('li');
+    li.textContent = name;
+    list.append(li);
+  });
+  document.getElementById('attendee-count').textContent = `총 ${EVENT.attendees.length}명`;
 }
 
 function setupCountdown() {
@@ -86,19 +97,21 @@ function setupCountdown() {
 }
 
 function setupMap() {
-  const { placeName, address, lat, lng } = EVENT;
+  const { placeName, address, mapSearch, kakaoPlaceId, lat, lng } = EVENT;
 
   document.getElementById('map-iframe').src =
-    `https://maps.google.com/maps?q=${lat},${lng}&z=16&output=embed`;
+    `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
   document.getElementById('naver-link').href =
-    `https://map.naver.com/p/search/${encodeURIComponent(address)}`;
-  document.getElementById('kakao-link').href =
-    `https://map.kakao.com/link/to/${encodeURIComponent(placeName)},${lat},${lng}`;
+    `https://map.naver.com/p/search/${encodeURIComponent(mapSearch)}`;
+  // 장소 ID가 있으면 카카오맵에 등록된 장소로 바로 길찾기
+  document.getElementById('kakao-link').href = kakaoPlaceId
+    ? `https://map.kakao.com/link/to/${kakaoPlaceId}`
+    : `https://map.kakao.com/link/to/${encodeURIComponent(placeName)},${lat},${lng}`;
 
   const status = document.getElementById('copy-status');
   document.getElementById('copy-address').addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(address);
+      await navigator.clipboard.writeText(address.replace(/\s*\(.*\)$/, ''));
       status.textContent = '주소를 복사했습니다.';
     } catch {
       status.textContent = '복사하지 못했습니다. 주소를 길게 눌러 복사해 주세요.';

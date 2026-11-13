@@ -5,10 +5,28 @@
 ## 프로젝트 개요
 
 스마트폰에서 보기 좋은 **모바일 반응형 초대장 웹페이지**입니다.
-주요 기능은 두 가지입니다.
+주요 기능은 세 가지입니다.
 
 1. **D-Day 카운트다운**: 행사일까지 남은 날짜와 시간을 보여줍니다.
-2. **장소 지도**: 행사 장소를 지도로 보여주고 지도 앱으로 길찾기를 열 수 있게 합니다.
+2. **참석자 목록**: 함께하는 사람의 이름과 인원수를 보여줍니다.
+3. **장소 지도**: 행사 장소를 지도로 보여주고 지도 앱으로 길찾기를 열 수 있게 합니다.
+
+## 현재 행사 정보
+
+| 항목 | 내용 |
+|---|---|
+| 행사 이름 | '26년 결혼기념일 해피점심 |
+| 일시 | 2026년 11월 28일(토) 오후 12시 30분 |
+| 참석자 | 총 3명 (김영남, 강정화, 김지율) |
+| 장소 | 한남 사피드 서울 (Sapid Seoul) |
+| 주소 | 서울 용산구 이태원로27길 34-1, 우영미 플래그십스토어 지하 (이태원역 2번 출구 도보 5분) |
+| 카카오맵 장소 ID | 1535637929 |
+
+## 배포
+
+- GitHub 저장소: https://github.com/rla955800-rgb/mobile-invitation
+- GitHub Pages: https://rla955800-rgb.github.io/mobile-invitation/
+- `main` 브랜치 루트를 그대로 배포합니다. 푸시하면 1~2분 뒤 자동 반영됩니다.
 
 ## 기술 규칙
 
@@ -40,14 +58,20 @@
 
 ```js
 const EVENT = {
-  title: '행사 이름',
-  date: '2026-12-24T12:00:00+09:00', // 반드시 한국 시간대(+09:00) 포함
-  placeName: '장소 이름',
-  address: '도로명 주소',
-  lat: 37.5665,
-  lng: 126.9780,
+  title: "'26년 결혼기념일 해피점심",
+  date: '2026-11-28T12:30:00+09:00', // 반드시 한국 시간대(+09:00) 포함
+  attendees: ['김영남', '강정화', '김지율'],
+  placeName: '한남 사피드 서울',
+  address: '서울 용산구 이태원로27길 34-1 (우영미 플래그십스토어 지하)',
+  mapSearch: '사피드 서울', // 네이버 지도 검색어
+  kakaoPlaceId: '1535637929', // 카카오맵 장소 ID (place.map.kakao.com/{ID})
+  lat: 37.5357,
+  lng: 126.9943,
 };
 ```
+
+- 참석자는 `attendees` 배열만 고치면 목록과 인원수(`총 N명`)가 함께 바뀝니다.
+- 주소 끝의 괄호 안 설명은 화면에만 보이고, 주소 복사 때는 빠집니다.
 
 ## 모바일 반응형 원칙
 
@@ -74,14 +98,19 @@ const EVENT = {
   - 행사 후: `D+N` 또는 "행사가 끝났습니다" 문구, 그리고 카운트다운 정지
 - 숫자는 두 자리로 맞춥니다(`05`). 글자 폭이 흔들리지 않게 `font-variant-numeric: tabular-nums`를 씁니다.
 
+## 참석자 기능
+
+- `EVENT.attendees`로 `<li>`를 만들어 이름을 둥근 칩 모양으로 보여주고, 위에 `총 N명`을 표시합니다.
+- 이름은 `textContent`로 넣습니다.
+
 ## 장소 지도 기능
 
 - API 키가 필요 없는 방식을 우선합니다. 기본은 **지도 `<iframe>` 임베드**입니다(예: Google 지도 임베드 URL `https://maps.google.com/maps?q=위도,경도&z=16&output=embed`).
   - `iframe`에는 `loading="lazy"`, `title`, `referrerpolicy="no-referrer-when-downgrade"`를 넣습니다.
   - 지도 영역은 `width: 100%`, `aspect-ratio: 4 / 3` 정도로 반응형을 유지합니다.
 - 지도 아래에 장소 이름, 주소, 그리고 **길찾기 버튼**을 둡니다.
-  - 네이버 지도: `https://map.naver.com/p/search/{주소}`
-  - 카카오맵: `https://map.kakao.com/link/to/{장소명},{위도},{경도}`
+  - 네이버 지도: `https://map.naver.com/p/search/{mapSearch}`
+  - 카카오맵: `kakaoPlaceId`가 있으면 `https://map.kakao.com/link/to/{장소ID}`, 없으면 `https://map.kakao.com/link/to/{장소명},{위도},{경도}`
   - 주소 복사 버튼: `navigator.clipboard.writeText()` 사용, 실패하면 안내 문구를 보여줍니다.
 - 링크 URL에 넣는 값은 `encodeURIComponent()`로 인코딩합니다.
 - 카카오맵/네이버 지도 JavaScript API처럼 키가 필요한 방식은 사용자가 요청할 때만 도입하고, 키는 코드에 직접 넣지 않고 설정 부분에 따로 둡니다.
