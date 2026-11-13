@@ -46,6 +46,8 @@
 ├── js/
 │   └── main.js       # D-Day 카운트다운, 지도 버튼 등 동작
 ├── images/           # 사진, 아이콘 (가능하면 .webp, 가로 1200px 이하)
+│   ├── og-image.png  # 링크 공유 미리보기 이미지 (1200×630)
+│   └── og-card.html  # og-image.png 원본 카드
 └── CLAUDE.md
 ```
 
@@ -98,6 +100,21 @@ const EVENT = {
   - 행사 후: `D+N` 또는 "행사가 끝났습니다" 문구, 그리고 카운트다운 정지
 - 숫자는 두 자리로 맞춥니다(`05`). 글자 폭이 흔들리지 않게 `font-variant-numeric: tabular-nums`를 씁니다.
 
+## 링크 공유 미리보기
+
+카카오톡, 문자 등으로 링크를 보내면 클릭하지 않아도 제목·설명·이미지 카드가 보이게 한다.
+
+- 메신저는 JavaScript를 실행하지 않는다. 그래서 `index.html` `<head>`의 `<title>`, `description`, `og:*`, `twitter:*` 태그에는 행사 정보를 **직접** 적는다. `EVENT` 한 곳 원칙의 유일한 예외이며, `EVENT`를 바꾸면 이 태그들과 미리보기 이미지도 함께 바꾼다.
+- `og:url`, `og:image`는 배포 주소 기준 **절대 URL**로 쓴다.
+- 미리보기 이미지는 `images/og-image.png` (1200×630, 핵심 내용은 가운데 1080×520 카드 안). 카카오톡이 위아래나 좌우를 잘라도 내용이 보이게 한다.
+- 이미지 다시 만들기: `images/og-card.html`의 문구를 고친 뒤 아래 명령으로 캡처한다 (모바일 초대장 스킬의 스크립트, Edge 필요).
+
+  ```bash
+  node ~/.claude/skills/mobile-invitation/scripts/og-capture.mjs images/og-card.html images/og-image.png
+  ```
+
+- 카카오톡은 미리보기를 캐시한다. 바꾼 뒤에도 예전 카드가 보이면 카카오 개발자 사이트의 [공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 주소를 넣고 캐시를 지운다 (카카오 로그인 필요, 사용자가 직접).
+
 ## 참석자 기능
 
 - `EVENT.attendees`로 `<li>`를 만들어 이름을 둥근 칩 모양으로 보여주고, 위에 `총 N명`을 표시합니다.
@@ -139,4 +156,5 @@ const EVENT = {
   - 가로 스크롤이 생기지 않는지
   - D-Day가 행사 전, 당일, 후에 올바르게 표시되는지 (`EVENT.date`를 잠시 바꿔서 확인)
   - 지도가 보이고 길찾기 버튼이 올바른 위치를 여는지
+  - `<head>`의 공유 미리보기 태그와 `images/og-image.png`가 현재 행사 정보와 같은지
   - 브라우저 콘솔에 오류가 없는지

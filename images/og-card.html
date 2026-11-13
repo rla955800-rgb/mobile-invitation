@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+  링크 공유 미리보기 이미지(images/og-image.png, 1200×630)의 원본 카드.
+  행사 정보가 바뀌면 아래 문구를 고치고 프로젝트 폴더에서 다시 캡처한다.
+  node ~/.claude/skills/mobile-invitation/scripts/og-capture.mjs images/og-card.html images/og-image.png
+-->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    :root {
+      --color-bg: #dceaf7;
+      --color-card: #eef5fc;
+      --color-text: #3b3330;
+      --color-muted: #6f625c;
+      --color-accent: #a0574a;
+      --color-accent-soft: #d6e6f5;
+      --font-serif: 'NanumMyeongjo', 'Batang', serif;
+      --font-sans: 'Malgun Gothic', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    html,
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, var(--color-accent-soft) 0%, var(--color-bg) 100%);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+    }
+
+    .card {
+      width: 1080px;
+      height: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      border-radius: 36px;
+      background: var(--color-card);
+      box-shadow: 0 16px 50px rgba(59, 51, 48, 0.12);
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      letter-spacing: 0.3em;
+      color: var(--color-accent);
+    }
+
+    .title {
+      font-family: var(--font-serif);
+      font-size: 68px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .when {
+      display: inline-block;
+      padding: 10px 34px;
+      border-radius: 999px;
+      background: var(--color-accent);
+      color: #fff;
+      font-size: 34px;
+      font-weight: 700;
+    }
+
+    .where {
+      font-size: 32px;
+      color: var(--color-muted);
+    }
+
+    .who {
+      display: flex;
+      gap: 14px;
+    }
+
+    .who span {
+      padding: 8px 24px;
+      border-radius: 999px;
+      background: var(--color-accent-soft);
+      font-size: 28px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p class="eyebrow">YOU'RE INVITED</p>
+    <h1 class="title">'26년 결혼기념일 해피점심</h1>
+    <p class="when">2026. 11. 28 (토) 오후 12:30</p>
+    <p class="where">📍 한남 사피드 서울</p>
+    <div class="who">
+      <span>김영남</span>
+      <span>강정화</span>
+      <span>김지율</span>
+    </div>
+  </div>
+</body>
+</html>
