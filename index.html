@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>초대장</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <main class="card">
+    <header class="hero">
+      <p class="hero-eyebrow">You're invited</p>
+      <h1 class="hero-title" data-event="title">행사 이름</h1>
+      <p class="hero-date" data-event="dateText">날짜</p>
+      <p class="dday-badge" id="dday-badge">D-?</p>
+    </header>
+
+    <section class="section greeting">
+      <h2 class="section-title">초대합니다</h2>
+      <p>
+        소중한 분들을 모시고<br>
+        뜻깊은 자리를 마련했습니다.<br>
+        바쁘시더라도 함께해 주시면<br>
+        큰 기쁨이 되겠습니다.
+      </p>
+    </section>
+
+    <section class="section countdown-section">
+      <h2 class="section-title">행사까지 남은 시간</h2>
+      <div class="countdown" id="countdown" role="timer">
+        <div class="countdown-item">
+          <span class="countdown-num" data-unit="days">00</span>
+          <span class="countdown-label">일</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" data-unit="hours">00</span>
+          <span class="countdown-label">시간</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" data-unit="minutes">00</span>
+          <span class="countdown-label">분</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" data-unit="seconds">00</span>
+          <span class="countdown-label">초</span>
+        </div>
+      </div>
+      <p class="countdown-message" id="countdown-message"></p>
+    </section>
+
+    <section class="section map-section">
+      <h2 class="section-title">오시는 길</h2>
+      <p class="place-name" data-event="placeName">장소 이름</p>
+      <p class="place-address" data-event="address">주소</p>
+
+      <div class="map-frame">
+        <iframe
+          id="map-iframe"
+          title="행사 장소 지도"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="map-buttons">
+        <a class="btn" id="naver-link" target="_blank" rel="noopener">네이버 지도</a>
+        <a class="btn" id="kakao-link" target="_blank" rel="noopener">카카오맵</a>
+        <button class="btn btn-outline" id="copy-address" type="button">주소 복사</button>
+      </div>
+      <p class="copy-status" id="copy-status" aria-live="polite"></p>
+    </section>
+
+    <footer class="footer">
+      <p>함께해 주셔서 감사합니다.</p>
+    </footer>
+  </main>
+</body>
+</html>
